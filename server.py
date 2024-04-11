@@ -171,7 +171,7 @@ class Server:
             for current_socket in read_list:
                 if current_socket is self.__server_socket:  # If a new client is trying to connet
                     client_socket, client_address = self.__server_socket.accept()
-                    if len(self.players) >= 2:  # Checking if the max amount of clients is reached
+                    if len(self.players) >= 4:  # Checking if the max amount of clients is reached
                         self.build_and_send_message(client_socket, chatlib.PROTOCOL_SERVER['connection_limit'], '')
                         client_socket.close()
                     else:
@@ -180,9 +180,13 @@ class Server:
                         self.build_and_send_message(client_socket, chatlib.PROTOCOL_SERVER['connected_successfully'],
                                                     str(player_id))  # Sending the connection successful message
                         self.players.append(client_socket)
-                        if player_id == 1:
+                        if player_id == 3:
                             # If the second player connected, sending the first player a game start message
                             self.build_and_send_message(self.players[0],
+                                                        chatlib.PROTOCOL_SERVER['game_starting_message'], '')
+                            self.build_and_send_message(self.players[1],
+                                                        chatlib.PROTOCOL_SERVER['game_starting_message'], '')
+                            self.build_and_send_message(self.players[2],
                                                         chatlib.PROTOCOL_SERVER['game_starting_message'], '')
                 else:  # If a player sent a request
                     command, data = self.recv_message_and_parse(current_socket)  # Receiving the request

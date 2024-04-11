@@ -3,7 +3,8 @@
 # File: game.py
 # Description: A game object for the 'Jet Fighter' game. Object is used both for the server and the client.
 import pygame
-from constants import BLACK_PLANE_IMG, WHITE_PLANE_IMG, SCREEN_COLOR, FPS, WHITE, BLACK
+from constants import BLACK_PLANE_IMG, WHITE_PLANE_IMG, BLUE_PLANE_IMG, PINK_PLANE_IMG, SCREEN_COLOR, FPS, WHITE, BLACK, \
+    BLUE, PINK
 from jet import Jet
 
 
@@ -25,6 +26,8 @@ class Game:
         """Initialising the 'jet' objects for the game"""
         image_black = pygame.image.load(BLACK_PLANE_IMG)
         image_white = pygame.image.load(WHITE_PLANE_IMG)
+        image_blue = pygame.image.load(BLUE_PLANE_IMG)
+        image_pink = pygame.image.load(PINK_PLANE_IMG)
         if len(self.planes) != 0:
             return
         if not positions or len(positions) < 4:
@@ -32,11 +35,19 @@ class Game:
                                    plane_image=image_white, is_white=True))
             self.planes.append(Jet(screen_width=self.screen_width, screen_height=self.screen_height,
                                    plane_image=image_black, is_white=False))
+            self.planes.append(Jet(screen_width=self.screen_width, screen_height=self.screen_height,
+                                   plane_image=image_blue, is_white=False))
+            self.planes.append(Jet(screen_width=self.screen_width, screen_height=self.screen_height,
+                                   plane_image=image_pink, is_white=False))
         else:
             self.planes.append(Jet(screen_width=self.screen_width, screen_height=self.screen_height,
                                    plane_image=image_white, is_white=True, x=positions[0], y=positions[1]))
             self.planes.append(Jet(screen_width=self.screen_width, screen_height=self.screen_height,
                                    plane_image=image_black, is_white=False, x=positions[2], y=positions[3]))
+            self.planes.append(Jet(screen_width=self.screen_width, screen_height=self.screen_height,
+                                   plane_image=image_blue, is_white=False, x=positions[4], y=positions[5]))
+            self.planes.append(Jet(screen_width=self.screen_width, screen_height=self.screen_height,
+                                   plane_image=image_pink, is_white=False, x=positions[6], y=positions[7]))
 
     def initialise_window(self):
         """Creating initial game window"""
@@ -64,7 +75,8 @@ class Game:
         """Returning a dictionary with the initial game data"""
         return {'width': self.screen_width,
                 'height': self.screen_height,
-                'planes_pos': [self.planes[0].x, self.planes[0].y, self.planes[1].x, self.planes[1].y]}
+                'planes_pos': [self.planes[0].x, self.planes[0].y, self.planes[1].x, self.planes[1].y, self.planes[2].x,
+                               self.planes[2].y, self.planes[3].x, self.planes[3].y]}
 
     def update(self):
         """Updating the game"""

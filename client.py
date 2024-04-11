@@ -55,7 +55,7 @@ class Client:
                 raise Exception("ERROR: " + data)
             elif cmd == chatlib.PROTOCOL_SERVER['connected_successfully']:
                 data = int(data)
-                if data == 0 or data == 1:
+                if data == 0 or data == 1 or data == 2 or data == 3:
                     self.id = data
             elif cmd == chatlib.PROTOCOL_SERVER['connection_limit']:
                 raise Exception("Game is full.")
@@ -89,7 +89,7 @@ class Client:
         tk.Label(root, text='', bg='#fff').pack()
         tk.Label(root, text='', bg='#fff').pack()
         ip = tk.Entry(root, width=25, fg='black', border=0, bg='white', font=('Microsoft YaHei UI Light', 14))
-        ip.insert(0, 'Server IP')
+        ip.insert(0, '127.0.0.1')
         ip.pack()
 
         def on_enter_ip(event):
@@ -107,7 +107,7 @@ class Client:
         tk.Label(root, text='', bg='#fff').pack()
         tk.Label(root, text='', bg='#fff').pack()
         port = tk.Entry(root, width=25, fg='black', border=0, bg='white', font=('Microsoft YaHei UI Light', 14))
-        port.insert(0, 'Server port')
+        port.insert(0, '8200')
         port.pack()
 
         def on_enter_port(event):
@@ -165,7 +165,7 @@ class Client:
 
             # Closing the connection window
             root.destroy()
-            if self.id == 0:  # If the current player is the first player -> Waiting for another player.
+            if self.id == 0 or self.id == 1 or self.id == 2:  # If the current player is the first player -> Waiting for another player.
                 # Creating a 'waiting for player' window
                 waiting_screen = tk.Tk()
                 waiting_screen.geometry("400x400")
@@ -187,6 +187,7 @@ class Client:
                     waiting_screen.update()
                     waiting_screen.update_idletasks()
                     if result:  # Checking if the server sent a start message
+                        print("result = ", result)
                         waiting_screen.destroy()
                         break
                     time.sleep(0.01)
