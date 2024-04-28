@@ -89,6 +89,16 @@ class Server:
                 self.game.planes[plane_num].rotate_amount = ROTATE_AMOUNT
             elif data == pygame.K_d:
                 self.game.planes[plane_num].rotate_amount = -ROTATE_AMOUNT
+        elif plane_num == 2:  # If the player is blue
+            if data == pygame.K_j:
+                self.game.planes[plane_num].rotate_amount = ROTATE_AMOUNT
+            elif data == pygame.K_l:
+                self.game.planes[plane_num].rotate_amount = -ROTATE_AMOUNT
+        elif plane_num == 3:  # If the player is pink
+            if data == pygame.K_y:
+                self.game.planes[plane_num].rotate_amount = ROTATE_AMOUNT
+            elif data == pygame.K_u:
+                self.game.planes[plane_num].rotate_amount = -ROTATE_AMOUNT
         if data == pygame.K_SPACE:  # Space key is valid for both colors
             if plane_num == 0:
                 if time.time() - self.last_shot_white < 1.5:  # Checking if the player can already shoot again
@@ -114,6 +124,12 @@ class Server:
                 self.game.planes[plane_num].rotate_amount = 0
         elif plane_num == 1:
             if data == pygame.K_a or data == pygame.K_d:
+                self.game.planes[plane_num].rotate_amount = 0
+        elif plane_num == 2:
+            if data == pygame.K_j or data == pygame.K_l:
+                self.game.planes[plane_num].rotate_amount = 0
+        elif plane_num == 3:
+            if data == pygame.K_u or data == pygame.K_y:
                 self.game.planes[plane_num].rotate_amount = 0
 
     def handle_status_message(self, client_socket: socket.socket):

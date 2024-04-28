@@ -17,6 +17,8 @@ class Game:
         self.initialise_jets(plane_positions)
         self.score_0 = 0
         self.score_1 = 0
+        self.score_2 = 0
+        self.score_3 = 0
         self.screen = None
         self.clock = pygame.time.Clock()
         self.font = pygame.font.Font('freesansbold.ttf', 32)
@@ -32,22 +34,26 @@ class Game:
             return
         if not positions or len(positions) < 4:
             self.planes.append(Jet(screen_width=self.screen_width, screen_height=self.screen_height,
-                                   plane_image=image_white, is_white=True))
+                                   plane_image=image_white, is_white=True, is_blue=False, is_purple=False))
             self.planes.append(Jet(screen_width=self.screen_width, screen_height=self.screen_height,
-                                   plane_image=image_black, is_white=False))
+                                   plane_image=image_black, is_white=False, is_blue=False, is_purple=False))
             self.planes.append(Jet(screen_width=self.screen_width, screen_height=self.screen_height,
-                                   plane_image=image_blue, is_white=False))
+                                   plane_image=image_blue, is_white=False, is_blue=True, is_purple=False))
             self.planes.append(Jet(screen_width=self.screen_width, screen_height=self.screen_height,
-                                   plane_image=image_pink, is_white=False))
+                                   plane_image=image_pink, is_white=False, is_blue=False, is_purple=True))
         else:
             self.planes.append(Jet(screen_width=self.screen_width, screen_height=self.screen_height,
-                                   plane_image=image_white, is_white=True, x=positions[0], y=positions[1]))
+                                   plane_image=image_white, is_white=True, x=positions[0], y=positions[1],
+                                   is_blue=False, is_purple=False))
             self.planes.append(Jet(screen_width=self.screen_width, screen_height=self.screen_height,
-                                   plane_image=image_black, is_white=False, x=positions[2], y=positions[3]))
+                                   plane_image=image_black, is_white=False, x=positions[2], y=positions[3],
+                                   is_blue=False, is_purple=False))
             self.planes.append(Jet(screen_width=self.screen_width, screen_height=self.screen_height,
-                                   plane_image=image_blue, is_white=False, x=positions[4], y=positions[5]))
+                                   plane_image=image_blue, is_white=False, x=positions[4], y=positions[5],
+                                   is_blue=True, is_purple=False))
             self.planes.append(Jet(screen_width=self.screen_width, screen_height=self.screen_height,
-                                   plane_image=image_pink, is_white=False, x=positions[6], y=positions[7]))
+                                   plane_image=image_pink, is_white=False, x=positions[6], y=positions[7],
+                                   is_blue=False, is_purple=True))
 
     def initialise_window(self):
         """Creating initial game window"""
@@ -66,8 +72,18 @@ class Game:
         text2 = self.font.render(str(self.score_1), True, BLACK)
         text2_rect = text2.get_rect()
         text2_rect.center = (int(3 * self.screen_width / 4), int(self.screen_height / 7))
+
+        text3 = self.font.render(str(self.score_2), True, BLACK)
+        text3_rect = text3.get_rect()
+        text3_rect.center = (int(3 * self.screen_width / 4), int(self.screen_height / 7))
+
+        text4 = self.font.render(str(self.score_3), True, BLACK)
+        text4_rect = text4.get_rect()
+        text4_rect.center = (int(3 * self.screen_width / 4), int(self.screen_height / 7))
         self.screen.blit(text1, text1_rect)
         self.screen.blit(text2, text2_rect)
+        self.screen.blit(text3, text3_rect)
+        self.screen.blit(text4, text4_rect)
         pygame.display.flip()
         self.clock.tick(FPS)
 

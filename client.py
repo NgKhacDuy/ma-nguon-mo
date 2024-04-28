@@ -9,7 +9,7 @@ import time
 import pygame.event
 import game
 from ImageLabel import ImageLabel
-from constants import SERVER_IP, SERVER_PORT, LOADING_IMG, WHITE_CONTROLS, BLACK_CONTROLS
+from constants import SERVER_IP, SERVER_PORT, LOADING_IMG, WHITE_CONTROLS, BLACK_CONTROLS, BLUE_CONTROLS, PINK_CONTROLS
 import chatlib
 import tkinter as tk
 from tkinter import messagebox
@@ -29,7 +29,7 @@ class Client:
         """Building a message according to the protocol and sending it to the server"""
         message = chatlib.build_message(command, data) + chatlib.END_OF_MESSAGE
         self.__socket.send(message.encode())
-        print("[SERVER] -> [{}]:  {}".format(self.__socket.getpeername(), message))
+        # print("[SERVER] -> [{}]:  {}".format(self.__socket.getpeername(), message))
 
     def recv_message_and_parse(self) -> tuple:
         """Receiving a message from the server and parsing it according to the protocol"""
@@ -41,7 +41,7 @@ class Client:
                     break
                 full_msg += char
             cmd, data = chatlib.parse_message(full_msg)
-            print("[{}] -> [SERVER]:  {}".format(self.__socket.getpeername(), full_msg))
+            # print("[{}] -> [SERVER]:  {}".format(self.__socket.getpeername(), full_msg))
             return cmd, data
         except:
             return None, None
@@ -245,23 +245,47 @@ class Client:
 
     def handle_key_press(self, key: int):
         """Sending the relevant information to the server when a key is pressed"""
+        if self.id == 2:
+            if key == pygame.K_RIGHT:
+                key = pygame.K_l
+            elif key == pygame.K_LEFT:
+                key = pygame.K_j
+        if self.id == 3:
+            if key == pygame.K_RIGHT:
+                key = pygame.K_u
+            elif key == pygame.K_LEFT:
+                key = pygame.K_y
         if self.id == 1:
             if key == pygame.K_RIGHT:
                 key = pygame.K_d
             elif key == pygame.K_LEFT:
                 key = pygame.K_a
-        if (self.id == 0 and key in WHITE_CONTROLS) or (self.id == 1 and key in BLACK_CONTROLS) \
+        if (self.id == 0 and key in WHITE_CONTROLS) or (self.id == 1 and key in BLACK_CONTROLS) or (
+                self.id == 2 and key in BLUE_CONTROLS) or (self.id == 3 and key in PINK_CONTROLS) \
                 or key == pygame.K_SPACE:  # Only sending the information if the key is allowed
+            print(self.id)
             self.build_and_send_message(chatlib.PROTOCOL_CLIENT['key_down_msg'], str(key))
 
     def handle_key_release(self, key: int):
         """Sending the relevant information to the server when a key is released"""
+        if self.id == 2:
+            if key == pygame.K_RIGHT:
+                key = pygame.K_l
+            elif key == pygame.K_LEFT:
+                key = pygame.K_j
+        if self.id == 3:
+            if key == pygame.K_RIGHT:
+                key = pygame.K_u
+            elif key == pygame.K_LEFT:
+                key = pygame.K_y
         if self.id == 1:
             if key == pygame.K_RIGHT:
                 key = pygame.K_d
             elif key == pygame.K_LEFT:
                 key = pygame.K_a
-        if (self.id == 0 and key in WHITE_CONTROLS) or (self.id == 1 and key in BLACK_CONTROLS):
+        if (self.id == 0 and key in WHITE_CONTROLS) or (self.id == 1 and key in BLACK_CONTROLS) or (
+                self.id == 2 and key in BLUE_CONTROLS) or (self.id == 3 and key in PINK_CONTROLS):
+            print(self.id)
             # Only sending the information if the key is allowed
             self.build_and_send_message(chatlib.PROTOCOL_CLIENT['key_up_msg'], str(key))
 

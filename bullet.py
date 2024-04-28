@@ -7,7 +7,8 @@ from math import sin, cos, radians
 
 
 class Bullet:
-    def __init__(self, screen_width: int, screen_height: int, x: int, y: int, angle: float, is_white: bool):
+    def __init__(self, screen_width: int, screen_height: int, x: int, y: int, angle: float, is_white: bool,
+                 is_blue: bool, is_purple: bool):
         self.x = x
         self.y = y
         self.screen_width = screen_width
@@ -17,6 +18,8 @@ class Bullet:
         self.is_white = is_white
         self.radius = 3
         self.time_alive = 0
+        self.is_blue = is_blue
+        self.is_purple = is_purple
 
     def keep_in_map(self) -> None:
         """Keeping the bullet in the bounds of the screen"""
@@ -43,6 +46,10 @@ class Bullet:
         """Drawing the bullet to the screen"""
         if self.is_white:
             pygame.draw.circle(screen, (255, 255, 255), (self.x, self.y), self.radius)
+        elif self.is_blue:
+            pygame.draw.circle(screen, (0, 0, 255), (self.x, self.y), self.radius)
+        elif self.is_purple:
+            pygame.draw.circle(screen, (255, 0, 255), (self.x, self.y), self.radius)
         else:
             pygame.draw.circle(screen, (0, 0, 0), (self.x, self.y), self.radius)
 
@@ -57,5 +64,7 @@ class Bullet:
         self.angle = description_dict['angle']
         self.speed = description_dict['speed']
         self.is_white = description_dict['is_white']
+        self.is_blue = description_dict['is_blue']
+        self.is_purple = description_dict['is_purple']
         self.radius = description_dict['radius']
         self.time_alive = description_dict['time_alive']

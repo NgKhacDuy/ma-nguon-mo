@@ -29,3 +29,5 @@ PINK = (238, 57, 226)
 
 WHITE_CONTROLS = [pygame.K_LEFT, pygame.K_RIGHT]
 BLACK_CONTROLS = [pygame.K_a, pygame.K_d]
+BLUE_CONTROLS = [pygame.K_j, pygame.K_l]
+PINK_CONTROLS = [pygame.K_u, pygame.K_y]

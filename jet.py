@@ -20,6 +20,7 @@ def rot_center(image, angle):
 
 class Jet:
     def __init__(self, screen_width: int, screen_height: int, plane_image: pygame.Surface, is_white: bool,
+                 is_blue: bool, is_purple: bool,
                  x: int = None, y: int = None):
         self.x = x
         self.y = y
@@ -38,6 +39,8 @@ class Jet:
 
         self.bullets = []
         self.is_white = is_white
+        self.is_purple = is_purple
+        self.is_blue = is_blue
 
     def go_forward(self) -> None:
         """Updating the planes position to move forward"""
@@ -98,7 +101,8 @@ class Jet:
     def shoot(self) -> None:
         """Shooting a bullet"""
         bullet = Bullet(self.screen_width, self.screen_height, int(self.x + self.image.get_width() / 2),
-                        int(self.y + self.image.get_height() / 2), self.angle, self.is_white)  # Creating a bullet
+                        int(self.y + self.image.get_height() / 2), self.angle, self.is_white, self.is_blue,
+                        self.is_purple)  # Creating a bullet
         self.bullets.append(bullet)  # Adding bullet to the list
 
     def draw_bullets(self, screen: pygame.Surface) -> None:
@@ -128,7 +132,8 @@ class Jet:
                             x=description_dict['x'],
                             y=description_dict['y'],
                             angle=description_dict['angle'],
-                            is_white=description_dict['is_white'])
+                            is_white=description_dict['is_white'], is_blue=description_dict['is_blue'],
+                            is_purple=description_dict['is_purple'])
         self.bullets.append(new_bullet)
 
     def data_from_dict(self, description_dict: dict) -> None:
@@ -141,6 +146,8 @@ class Jet:
         self.rotate_amount = description_dict['rotate_amount']
 
         self.is_white = description_dict['is_white']
+        self.is_blue = description_dict['is_blue']
+        self.is_purple = description_dict['is_purple']
         self.bullets = []
         for i in range(len(description_dict['bullets'])):
             self.new_bullet_from_dict(description_dict['bullets'][i])
