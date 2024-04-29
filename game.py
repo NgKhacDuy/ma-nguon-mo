@@ -68,18 +68,19 @@ class Game:
             jet.draw(self.screen)
         text1 = self.font.render(str(self.score_0), True, WHITE)
         text1_rect = text1.get_rect()
-        text1_rect.center = (int(self.screen_width / 4), int(self.screen_height / 7))
+        text1_rect.center = (int(self.screen_width / 8), int(self.screen_height / 7))
+
         text2 = self.font.render(str(self.score_1), True, BLACK)
         text2_rect = text2.get_rect()
-        text2_rect.center = (int(3 * self.screen_width / 4), int(self.screen_height / 7))
+        text2_rect.center = (int(3 * self.screen_width / 8), int(self.screen_height / 7))
 
-        text3 = self.font.render(str(self.score_2), True, BLACK)
+        text3 = self.font.render(str(self.score_2), True, BLUE)
         text3_rect = text3.get_rect()
-        text3_rect.center = (int(3 * self.screen_width / 4), int(self.screen_height / 7))
+        text3_rect.center = (int(5 * self.screen_width / 8), int(self.screen_height / 7))
 
-        text4 = self.font.render(str(self.score_3), True, BLACK)
+        text4 = self.font.render(str(self.score_3), True, PINK)
         text4_rect = text4.get_rect()
-        text4_rect.center = (int(3 * self.screen_width / 4), int(self.screen_height / 7))
+        text4_rect.center = (int(7 * self.screen_width / 8), int(self.screen_height / 7))
         self.screen.blit(text1, text1_rect)
         self.screen.blit(text2, text2_rect)
         self.screen.blit(text3, text3_rect)
@@ -105,6 +106,8 @@ class Game:
         description_dict = {
             'score_0': self.score_0,
             'score_1': self.score_1,
+            'score_2': self.score_2,
+            'score_3': self.score_3,
         }
         planes = [plane.to_dict() for plane in self.planes]
         description_dict['planes'] = planes

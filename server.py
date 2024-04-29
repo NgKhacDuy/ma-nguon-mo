@@ -26,6 +26,8 @@ class Server:
         self.game_running = True
         self.last_shot_white = 0
         self.last_shot_black = 0
+        self.last_shot_blue = 0
+        self.last_shot_pink = 0
         self.winner = None
 
     def setup_socket(self):
@@ -43,7 +45,7 @@ class Server:
         """Building a message according to the protocol and sending it to the client"""
         message = chatlib.build_message(command, data) + chatlib.END_OF_MESSAGE
         self.messages_to_send.append((client_socket, message))
-        print("[SERVER] -> [{}]:  {}".format(client_socket.getpeername(), message))
+        # print("[SERVER] -> [{}]:  {}".format(client_socket.getpeername(), message))
 
     def recv_message_and_parse(self, client_socket: socket.socket) -> tuple:
         """Receiving a message from the client and parsing it according to the protocol"""
@@ -55,7 +57,7 @@ class Server:
                     break
                 full_msg += char
             cmd, data = chatlib.parse_message(full_msg)
-            print("[{}] -> [SERVER]:  {}".format(client_socket.getpeername(), full_msg))
+            # print("[{}] -> [SERVER]:  {}".format(client_socket.getpeername(), full_msg))
             return cmd, data
         except:
             return None, None
@@ -110,6 +112,16 @@ class Server:
                     return
                 else:
                     self.last_shot_black = time.time()
+            elif plane_num == 2:
+                if time.time() - self.last_shot_blue < 1.5:  # Checking if the player can already shoot again
+                    return
+                else:
+                    self.last_shot_blue = time.time()
+            elif plane_num == 3:
+                if time.time() - self.last_shot_pink < 1.5:  # Checking if the player can already shoot again
+                    return
+                else:
+                    self.last_shot_pink = time.time()
             self.game.planes[plane_num].shoot()  # Shooting a bullet
 
     def handle_client_key_up(self, client_socket: socket.socket, data: str) -> None:
@@ -134,7 +146,7 @@ class Server:
 
     def handle_status_message(self, client_socket: socket.socket):
         """Sending the current game status to the client"""
-        if self.winner == 0 or self.winner == 1:  # If there is a winner sending a winner message
+        if self.winner == 0 or self.winner == 1 or self.winner == 2 or self.winner == 3:  # If there is a winner sending a winner message
             self.build_and_send_message(client_socket, chatlib.PROTOCOL_SERVER['winner_msg'], str(self.winner))
         else:
             game_str = json.dumps(self.game.up_to_date_game_data())
@@ -174,14 +186,24 @@ class Server:
                 for bullet in self.game.hits:
                     if bullet.is_white:
                         self.game.score_0 += 1
+                    if bullet.is_blue:
+                        print("blue")
+                        self.game.score_2 += 1
+                    if bullet.is_purple:
+                        print("pink")
+                        self.game.score_3 += 1
                     else:
                         self.game.score_1 += 1
                     self.game.hits.remove(bullet)
             # Checking if a player has won
             if self.game.score_0 == 5:
                 self.winner = 0
-            elif self.game.score_1 == 5:
+            if self.game.score_1 == 5:
                 self.winner = 1
+            if self.game.score_2 == 5:
+                self.winner = 2
+            elif self.game.score_3 == 5:
+                self.winner = 3
             # Checking if there are messages available of players that try to connect
             read_list, write_list, error_list = select.select([self.__server_socket] + self.players, self.players, [])
             for current_socket in read_list:

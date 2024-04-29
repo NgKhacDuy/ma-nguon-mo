@@ -222,6 +222,9 @@ class Client:
             game_data = json.loads(data)  # Parsing the received dictionary
             self.game.score_0 = game_data['score_0']
             self.game.score_1 = game_data['score_1']
+            self.game.score_2 = game_data['score_2']
+            self.game.score_3 = game_data['score_3']
+
             for i in range(len(self.game.planes)):
                 self.game.planes[i].data_from_dict(game_data['planes'][i])
             return 1
