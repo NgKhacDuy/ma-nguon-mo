@@ -99,7 +99,9 @@ class Game:
         """Updating the game"""
         for i in range(len(self.planes)):
             plane = self.planes[i]
-            plane.update(self.planes[1 - i].bullets, self.hits)  # Updating each airplane
+            for f in range(len(self.planes)):
+                if f != i:
+                    plane.update(self.planes[f].bullets, self.hits)  # Updating each airplane
 
     def up_to_date_game_data(self):
         """Returning the current game data"""
