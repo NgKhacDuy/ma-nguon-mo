@@ -187,12 +187,11 @@ class Server:
                     if bullet.is_white:
                         self.game.score_0 += 1
                     if bullet.is_blue:
-                        print("blue")
                         self.game.score_2 += 1
                     if bullet.is_purple:
                         print("pink")
                         self.game.score_3 += 1
-                    else:
+                    if not bullet.is_white and not bullet.is_blue and not bullet.is_purple:
                         self.game.score_1 += 1
                     self.game.hits.remove(bullet)
             # Checking if a player has won
