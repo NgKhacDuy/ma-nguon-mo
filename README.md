@@ -1,7 +1,8 @@
 
 # Jet Fighter
 
-Jet Fighter is a game about fighter between jets, player can control and shoot bullet to achieve win
+Jet Fighter is a game about fighter between jets, player can control and shoot bullet to achieve win\
+Access [this link](https://ma-nguon-mo-github-page.vercel.app/) to see some image about this project
 
 ## Tech Stack
 
